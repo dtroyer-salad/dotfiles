@@ -1,0 +1,23 @@
+#!/bin/bash
+# flushdns - Clear DNS cache on known OS/X versions
+
+VER=$(sw_vers | awk '/ProductVersion/ { print $2 }')
+
+case $VER in
+    10.8.6)
+        sudo dscacheutil -flushcache
+        ;;
+    10.10.[0-3])
+        sudo discoveryutil mdnsflushcache
+        ;;
+    10.8.[7-9]|10.1[0-4].*)
+        sudo killall -HUP mDNSResponder
+        sudo killall -HUP mDNSResponderHelper
+        ;;
+    10.1[5-9].*)
+        sudo killall -HUP mDNSResponder
+        ;;
+    *)
+        echo "Unknown OS/X: $VER"
+        ;;
+esac

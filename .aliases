@@ -1,0 +1,75 @@
+# dtroyer .aliases
+
+# OS-specific aliases
+case `uname` in
+    CYGWIN_NT*)
+        alias root=""
+        alias df="df -m"
+        ;;
+    AIX)
+        alias root="/usr/local/bin/sudo -u root ~/.profile-root exec"
+        alias df="df -m"
+        ;;
+    Darwin)
+        alias root="/usr/bin/sudo -s"
+        alias df="df -m"
+        alias gpg2=gpg
+        ;;
+    HP-UX)
+        alias root="/usr/local/bin/sudo -u root ~/.profile-root exec"
+        alias df="bdf"
+        ;;
+    Linux)
+        alias root="/usr/bin/sudo -u root ~/.profile-root exec"
+        alias df="df -m"
+        alias linuxdepot="/usr/bin/sudo -H -u linuxdepot bash"
+        ;;
+    SunOS)
+        alias root="/usr/local/bin/sudo -u root ~/.profile-root exec"
+        alias df="df -k"
+        ;;
+esac
+
+alias cpan="perl -MCPAN -e shell"
+alias killagent='kill $SSH_AGENT_PID'
+alias ll='ls -l'
+alias ls='ls'
+alias lsd="ll | grep '^d'"
+alias psg="ps -ef | grep $1"
+
+alias os="openstack"
+alias osd="openstack --debug -v -v -v"
+alias ost="time openstack --timing"
+
+alias sshfn="ssh -f -N"
+
+if [[ -x $HOME/google-cloud-sdk/bin/gcutil ]]; then
+    alias gcloud="$HOME/google-cloud-sdk/bin/gcloud"
+    alias gc="$HOME/google-cloud-sdk/bin/gcloud"
+    alias gcutil="$HOME/google-cloud-sdk/bin/gcutil"
+    alias gcu="$HOME/google-cloud-sdk/bin/gcutil"
+    alias gsutil="$HOME/google-cloud-sdk/bin/gsutil"
+    alias gsu="$HOME/google-cloud-sdk/bin/gsutil"
+fi
+
+# Python virtualenvs
+alias .ansible="source $HOME/lib/ansible/bin/activate"
+alias .dl="source $HOME/lib/dl/bin/activate"
+alias .osc="source $HOME/lib/osc/bin/activate"
+alias .oscdev="source $HOME/lib/osc-dev/bin/activate"
+alias .tools="source $HOME/lib/tools/bin/activate"
+
+# Ruby virtualenvs
+alias .rvm="source $HOME/bin/rvm-activate"
+alias .rvmuse='.rvm;v=$(sed -e 's/ruby-//' .ruby-version 2>/dev/null);rvm use ${v:-2.7.1}@$(basename $(pwd)) --create'
+
+alias ytdl="$HOME/lib/dl/bin/yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
+alias ytdl-a="$HOME/lib/dl/bin/yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
+alias ytdl-flac="$HOME/lib/dl/bin/yt-dlp -x --audio-format flac --add-metadata"
+
+alias mt1x2="montage -geometry +0+0 -tile 1x2"
+alias mt1x2r90="montage -geometry +0+0 -tile 1x2 -rotate 90"
+alias mt1x3="montage -geometry +0+0 -tile 1x3"
+alias mt1x3r90="montage -geometry +0+0 -tile 1x3 -rotate 90"
+alias mt2x1="montage -geometry +0+0 -tile 2x1"
+alias mt3x1="montage -geometry +0+0 -tile 3x1"

@@ -1,0 +1,55 @@
+[user]
+	name = Dean Troyer
+	email = dtroyer@salad.com
+#	signingkey = B6443F75C6CF6822
+
+[tag]
+#	gpgsign = true
+
+[gpg]
+	program = /usr/bin/gpg
+
+[color]
+	ui = true
+
+[alias]
+# some resets without explanation
+r = reset
+r1 = reset HEAD^
+r2 = reset HEAD^^
+rh = reset --hard
+rh1 = reset HEAD^ --hard
+rh2 = reset HEAD^^ --hard
+
+rb = rebase
+rba = rebase --abort
+rbc = rebase --continue
+rbi = rebase -i
+
+cp = cherry-pick
+st = status -s
+cl = clone
+ci = commit
+co = checkout
+br = branch
+diff = diff --word-diff
+dc = diff --cached
+wc = whatchanged
+
+# git 1.x? on OS/X doesn't like this
+#cd=!"TOP=$(git rev-parse --show-toplevel) find $TOP -name '*.pyc' -delete; git-checkout”
+
+look = log --graph --pretty=format:'%Cred %h : %Creset%s %Cgreen(%cr) %C(blue)<%an>%C(yellow)%d %Creset' --date=relative
+
+logsum = log --pretty=format:'%h:%cd:%cn:%s' --date=short
+logsumx = log --pretty=format:'            <li>%s - <em>Commit <a href="https://review.openstack.org/#q,%h,n,z">%h</a> %cd</em></li>' --date=short
+
+l = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
+
+[push]
+	default = matching
+
+[gitreview]
+	username = dtroyer
+[pull]
+	rebase = false

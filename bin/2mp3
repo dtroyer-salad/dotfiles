@@ -1,0 +1,98 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import os.path
+import sys
+
+QUALITY = 4
+
+CODEC = 'libmp3lame'
+
+OPTS = None
+
+
+def escape_quotes(path):
+    return path.replace('"', r'\"')
+
+def encode_m4a(in_file, quality=QUALITY):
+    path, filename = os.path.split(in_file)
+    basename, ext = os.path.splitext(filename)
+    destpath = os.path.join(path, '..', 'm4a')
+    m4a_file = escape_quotes(os.path.join(destpath, basename + '.m4a'))
+    if not os.path.exists(destpath):
+        os.makedirs(destpath)
+
+    command = 'ffmpeg -i "%s" -codec:a aac -vn -y -qscale:a %d "%s"' % (in_file, quality, m4a_file)
+
+    return (command, m4a_file)
+
+def encode_mp3(in_file, quality=QUALITY):
+    path, filename = os.path.split(in_file)
+    basename, ext = os.path.splitext(filename)
+    destpath = os.path.join(path, '..', 'mp3')
+    mp3_file = escape_quotes(os.path.join(destpath, basename + '.mp3'))
+    if not os.path.exists(destpath):
+        os.makedirs(destpath)
+
+    command = 'ffmpeg -i "%s" -codec:a libmp3lame -vn -y -qscale:a %d "%s"' % (in_file, quality, mp3_file)
+
+    return (command, mp3_file)
+
+def build_parser():
+    parser = argparse.ArgumentParser('flac2mp3')
+    parser.add_argument(
+        '-4', '--m4a',
+        dest='codec',
+        default=CODEC,
+    )
+    parser.add_argument(
+        '-q', '--quality',
+        type=int,
+        metavar='<ffmpeg-quality>',
+        dest='quality',
+        default=QUALITY,
+    )
+    parser.add_argument(
+        '-v',
+        action='store_true',
+        dest='debug',
+    )
+    parser.add_argument(
+        'file',
+        nargs='*',
+        help='Files to convert',
+    )
+    return parser
+
+
+def main(argv):
+    global OPTS
+    OPTS = build_parser().parse_args()
+    if OPTS.debug:
+        print("argv: %s" % argv)
+        print("opts: %s" % OPTS)
+    for i in OPTS.file:
+        in_file = i
+
+        if not os.path.exists(in_file) or not os.path.isfile(in_file):
+            print('%s is not found.' % (in_file))
+            sys.exit(1)
+
+        # (command, outfile) = encode_mp3(in_file, quality=OPTS.quality)
+        (command, outfile) = encode_m4a(in_file, quality=OPTS.quality)
+
+        if OPTS.debug:
+            print("cmd: %s" % command)
+
+        if not os.path.isfile(outfile):
+            os.system(command)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print('usage: %s <infile(s)>' % (sys.argv[0]))
+        sys.exit(1)
+
+main(sys.argv[1:])
+

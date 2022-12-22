@@ -1,0 +1,54 @@
+#!/usr/bin/ksh
+# foreach - loop on a series of hosts
+# $Id: foreach,v 1.5 2005/07/06 18:23:32 dtroyer Exp $
+
+# foreach [-q] [-t] "cmd %s" host1 [host2 ...]
+
+while getopts qt c; do
+    case $c in
+        q)  QUIET=1;
+            ;;
+        t)  TEST=echo;
+            ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
+# Get command
+CMDTMPL=$1
+shift
+
+HOSTS="$@"
+
+# LookupGroup expands group names in a list from the specified file
+# LookupGroup(filename lookup-list)
+
+LookupGroup() {
+    # Expand host group names
+    FILE=$1; shift
+    unset ALLHOSTS
+    if [[ -r "$FILE" ]]; then
+        for i in $@; do
+            H=`grep "^$i\:" $FILE | sed -e "s/^$i\://"`
+            if [[ "$H" != "" ]]; then
+                ALLHOSTS="${ALLHOSTS} $H"
+            else
+                ALLHOSTS="${ALLHOSTS} $i"
+            fi
+        done
+    else
+        ALLHOSTS=$@
+    fi
+    echo $ALLHOSTS
+}
+
+# Expand host group names
+ALLHOSTS=`LookupGroup ${HOME}/etc/hostgroups $HOSTS`
+
+for i in ${ALLHOSTS}; do
+    if [ ! "$QUIET" = "1" ]; then
+        print "\n$i:"
+    fi
+    CMD=`printf "$CMDTMPL" $i`
+    $TEST $CMD
+done

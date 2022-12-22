@@ -1,0 +1,10 @@
+#!/bin/bash
+
+APP=alpine
+TITLE=Alpine
+
+if ! screen -ls | grep -q $USER; then
+    # new session
+    screen -S $USER -d -m -t $TITLE $APP
+fi
+screen -S $USER -D -R -t $TITLE $APP

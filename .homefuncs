@@ -1,0 +1,47 @@
+# $HOME management functions
+
+export DOTFILES_DIR=src/dotfiles
+export DOTFILES_REPO=git.xr7.org:/srv/repo/home.git
+
+# Pushes dotfiles repo to remote host
+function push_dotfiles() {
+    local host=${1:-localhost}
+
+    ssh $host " \
+        [[ -d \$(dirname \$HOME/$DOTFILES_DIR) ]] || mkdir -p \$(dirname \$HOME/$DOTFILES_DIR); \
+    "
+    # in source $HOME is local, in dest don't need $HOME as that is assumed
+    rsync -avH $HOME/$DOTFILES_DIR $host:$(dirname $DOTFILES_DIR)
+    ssh $host " \
+        source \$HOME/$DOTFILES_DIR/.homefuncs; \
+        install_home; \
+    "
+}
+
+# Clones home repo on remote host
+function git_clone_home() {
+    local host=${1:-localhost}
+
+    ssh $host " \
+        [[ -d \$(dirname \$HOME/$DOTFILES_DIR) ]] || mkdir -p \$(dirname \$HOME/$DOTFILES_DIR); \
+        git clone $DOTFILES_REPO \$HOME/$DOTFILES_DIR; \
+        source \$HOME/$DOTFILES_DIR/.homefuncs; \
+        install_home; \
+    "
+}
+
+# Puts home repo files in place
+function install_home() {
+    if [[ -d $HOME/$DOTFILES_DIR ]]; then
+        cd $HOME/$DOTFILES_DIR
+        [[ -d $HOME/.ssh ]] || mkdir $HOME/.ssh
+        cp -p .gitconfig $HOME
+        cp -p .git-prompt $HOME
+        cp -pr .[a-fh-z]* $HOME
+        chmod 700 $HOME/.ssh
+        chmod 644 $HOME/.ssh/authorized_keys
+        [[ -d $HOME/bin ]] || mkdir $HOME/bin
+        [[ -d $HOME/lib ]] || mkdir $HOME/lib
+        cp -p lib/Makefile $HOME/lib
+    fi
+}
