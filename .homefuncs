@@ -1,7 +1,7 @@
 # $HOME management functions
 
 export DOTFILES_DIR=src/dotfiles
-export DOTFILES_REPO=git.xr7.org:/srv/repo/home.git
+export DOTFILES_REPO=github.com:dtroyer-salad/dotfiles.git
 
 # Pushes dotfiles repo to remote host
 function push_dotfiles() {
