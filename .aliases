@@ -73,3 +73,10 @@ alias mt1x3="montage -geometry +0+0 -tile 1x3"
 alias mt1x3r90="montage -geometry +0+0 -tile 1x3 -rotate 90"
 alias mt2x1="montage -geometry +0+0 -tile 2x1"
 alias mt3x1="montage -geometry +0+0 -tile 3x1"
+
+[[ $(uname -r) =~ (WSL) ]]
+if [[ -n "${BASH_REMATCH[1]}" ]]; then
+    alias choco="choco.exe"
+    alias explorer="explorer.exe"
+    alias wsl="wsl.exe"
+fi
