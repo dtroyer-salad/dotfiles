@@ -57,7 +57,7 @@ fi
 PCOLOR=${PCOLOR:-'\[\e[0;32;244m\]'}
 
 # Set up git prompt magic
-if ! type -t __git_ps1 && [[ -r $HOME/.git-prompt ]]; then
+if ! type -t __git_ps1 >/dev/null && [[ -r $HOME/.git-prompt ]]; then
     source $HOME/.git-prompt
     GIT='$(__git_ps1 " ('"${PCOLOR}"'%s\[\e[0;0m\])")'
 fi
