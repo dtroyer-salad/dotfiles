@@ -35,6 +35,11 @@ case $(uname -s) in
             source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
         fi
         ;;
+    Linux)
+        if [[ -n $WSL_DISTRO_NAME ]]; then
+            sudo hostname $WSL_DISTRO_NAME
+        fi
+        ;;
 esac
 
 case $TERM in
