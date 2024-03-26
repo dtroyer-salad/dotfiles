@@ -1,10 +1,11 @@
 [user]
 	name = Dean Troyer
 	email = dean.troyer@salad.com
-#	signingkey = B6443F75C6CF6822
+
+[includeIf "gitdir:~/src/salad/"]
+    path = ~/.config/git/config.salad
 
 [tag]
-#	gpgsign = true
 
 [gpg]
 	program = /usr/bin/gpg
@@ -34,6 +35,7 @@ co = checkout
 br = branch
 diff = diff --word-diff
 dc = diff --cached
+sw = switch
 wc = whatchanged
 
 # git 1.x? on OS/X doesn't like this
@@ -51,5 +53,9 @@ l = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x
 
 [gitreview]
 	username = dtroyer
+
 [pull]
 	rebase = false
+
+[http]
+	sslVerify = true
