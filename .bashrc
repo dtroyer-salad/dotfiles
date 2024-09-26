@@ -31,11 +31,22 @@ case $(uname -s) in
         HOMEBREW_NO_ANALYTICS=1
         export HOMEBREW_NO_AUTO_UPDATE HOMEBREW_NO_EMOJI HOMEBREW_NO_ANALYTICS
         # hack in for now
-        if [[ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]]; then
-            source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+        if [[ -f $HOME/.git-completion.bash ]]; then
+            source .git-completion.bash
+        else
+            if [[ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]]; then
+                source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+            fi
         fi
         ;;
     Linux)
+        if [[ -f $HOME/.git-completion.bash ]]; then
+            source .git-completion.bash
+        else
+            if [[ -f /etc/bash_completion.d/git-completion.bash ]]; then
+                source /etc/bash_completion.d/git-completion.bash
+            fi
+        fi
         if [[ -n $WSL_DISTRO_NAME ]]; then
             sudo hostname $WSL_DISTRO_NAME
         fi
