@@ -12,8 +12,10 @@ case $(uname -s) in
     CYGWIN_NT*)
         ;;
     Darwin)
+        eval "$(/opt/homebrew/bin/brew shellenv)"
         EDITOR=vim
-        GOBIN=/usr/local/go/bin
+        GOROOT=$HOMEBREW_PREFIX/opt/go/libexec
+        GOBIN=$HOMEBREW_PREFIX/go/bin
         PATH=/usr/local/bin:$PATH:/usr/local/sbin:$GOBIN:$HOME/android-sdk/platform-tools
         export GOBIN PATH
         ;;
