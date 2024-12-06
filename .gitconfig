@@ -1,11 +1,13 @@
 [user]
 	name = Dean Troyer
+#	email = dtroyer@gmail.com
 	email = dean.troyer@salad.com
 
 [includeIf "gitdir:~/src/salad/"]
-    path = ~/.config/git/config.salad
+	path = ~/.config/git/config.salad
 
 [tag]
+#	gpgsign = true
 
 [gpg]
 	program = /usr/bin/gpg
@@ -28,6 +30,8 @@ rbc = rebase --continue
 rbi = rebase -i
 
 cp = cherry-pick
+cpa = cherry-pick --abort
+cpc = cherry-pick --continue
 st = status -s
 cl = clone
 ci = commit
@@ -56,6 +60,9 @@ l = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x
 
 [pull]
 	rebase = false
+
+[init]
+	defaultBranch = master
 
 [http]
 	sslVerify = true

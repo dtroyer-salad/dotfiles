@@ -43,9 +43,9 @@ OSLO_FILTER_SCRIPT=filter_git_history.sh
 OSLO_FILTER_CMD=$(which ${OSLO_FILTER_SCRIPT})
 if [[ "$OSLO_FILTER_CMD" == "" ]]; then
     # not found in path
-    if [[ -d ${OSLO_TOOLS} && -x ${OSLO_TOOLS}/${OSLO_FILTER_SCRIPT} ]]; then
+    if [[ -d ${OSLO_TOOLS} && -x ${OSLO_TOOLS}/tools/${OSLO_FILTER_SCRIPT} ]]; then
         # found it!
-        OSLO_FILTER_CMD=${OSLO_TOOLS}/${OSLO_FILTER_SCRIPT}
+        OSLO_FILTER_CMD=${OSLO_TOOLS}/tools/${OSLO_FILTER_SCRIPT}
     else
         echo "${OSLO_FILTER_SCRIPT} is not found.  You need to get it and set OSLO_TOOLS to the directory"
         echo "\$ git clone ${OSLO_TOOLS_REPO} oslo.tools"

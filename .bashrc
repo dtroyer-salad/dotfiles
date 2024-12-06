@@ -34,8 +34,8 @@ case $(uname -s) in
         if [[ -f $HOME/.git-completion.bash ]]; then
             source .git-completion.bash
         else
-            if [[ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]]; then
-                source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+            if [[ -f $(/opt/homebrew/bin/brew --prefix)/etc/bash_completion.d/git-completion.bash ]]; then
+                source $(/opt/homebrew/bin/brew --prefix)/etc/bash_completion.d/git-completion.bash
             fi
         fi
         ;;
@@ -88,3 +88,6 @@ unset TITLE
 
 # Python helpers
 export PIP_DOWNLOAD_CACHE=~/.pip/cache
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+#export PATH="$PATH:$HOME/.rvm/bin"

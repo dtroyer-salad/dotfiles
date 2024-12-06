@@ -7,7 +7,7 @@ termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
 startup_message off
 
-caption always "%{= kW}%-w%{= bW}%n %t%{-}%+w %-=%{= kR}%H  "
+caption always "%{= kW}%-w%{= bW}%n %t%{-}%+w %-=%{= kM}%H %{= kC}%d%M %0c"
 
 #hardstatus alwayslastline "%{= kW}%-=%{= kG}Sess:%u%{= kW} %t | %{= kG} Load:%{= kW} %l |%{= kG} Up: %{= kW}%1` | %{= kG}Bat: %{= kW}%2` | %m/%d %C %A"
 

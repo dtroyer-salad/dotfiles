@@ -41,6 +41,8 @@ alias os="openstack"
 alias osd="openstack --debug -v -v -v"
 alias ost="time openstack --timing"
 
+alias mkdt-test="mkbranch dt-test"
+
 alias sshfn="ssh -f -N"
 
 if [[ -x $HOME/google-cloud-sdk/bin/gcutil ]]; then
@@ -52,18 +54,27 @@ if [[ -x $HOME/google-cloud-sdk/bin/gcutil ]]; then
     alias gsu="$HOME/google-cloud-sdk/bin/gsutil"
 fi
 
+# k8s
+alias k="kubectl"
+alias kns='kubectl ${NAMESPACE:+-n $NAMESPACE}'
+
 # Python virtualenvs
 alias .ansible="source $HOME/lib/ansible/bin/activate"
+alias .beets="source $HOME/lib/beets/bin/activate"
 alias .dl="source $HOME/lib/dl/bin/activate"
 alias .osc="source $HOME/lib/osc/bin/activate"
 alias .oscdev="source $HOME/lib/osc-dev/bin/activate"
 alias .tools="source $HOME/lib/tools/bin/activate"
+alias gertty="$HOME/lib/gertty/bin/gertty"
 
 # Ruby virtualenvs
 alias .rvm="source $HOME/bin/rvm-activate"
 alias .rvmuse='.rvm;v=$(sed -e 's/ruby-//' .ruby-version 2>/dev/null);rvm use ${v:-2.7.1}@$(basename $(pwd)) --create'
 
-alias ytdl="$HOME/lib/dl/bin/yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
+alias beet-mm="$HOME/lib/beets/bin/beet --config $HOME/.config/beets/config-mm.yaml"
+alias bm="$HOME/lib/beets/bin/beet --config $HOME/.config/beets/config-mm.yaml"
+alias bl="$HOME/lib/beets/bin/beet --config $HOME/.config/beets/config-local.yaml"
+alias ytdl="$HOME/lib/dl/bin/yt-dlp --add-metadata"
 alias ytdl-a="$HOME/lib/dl/bin/yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
 alias ytdl-flac="$HOME/lib/dl/bin/yt-dlp -x --audio-format flac --add-metadata"
 
@@ -74,9 +85,13 @@ alias mt1x3r90="montage -geometry +0+0 -tile 1x3 -rotate 90"
 alias mt2x1="montage -geometry +0+0 -tile 2x1"
 alias mt3x1="montage -geometry +0+0 -tile 3x1"
 
+alias get-sliders="$HOME/src/seriesumei/Ruth2/Contrib/Serie\ Sumei/shapes/get-sliders.py"
+
+alias wg-meshconf="$HOME/lib/wg-meshconf/bin/wg-meshconf"
+
 [[ $(uname -r) =~ (WSL) ]]
 if [[ -n "${BASH_REMATCH[1]}" ]]; then
-    alias choco="choco.exe"
-    alias explorer="explorer.exe"
-    alias wsl="wsl.exe"
+	alias choco="choco.exe"
+	alias explorer="explorer.exe"
+	alias wsl="wsl.exe"
 fi

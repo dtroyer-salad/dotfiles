@@ -14,7 +14,7 @@ case $VER in
         sudo killall -HUP mDNSResponder
         sudo killall -HUP mDNSResponderHelper
         ;;
-    10.1[5-9].*)
+    10.1[5-9].*|1[1234]*)
         sudo killall -HUP mDNSResponder
         ;;
     *)
