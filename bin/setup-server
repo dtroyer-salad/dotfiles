@@ -1,0 +1,69 @@
+#!/bin/bash
+# setup-server - Scripted server setup stuffs
+#
+# Copy to a server and run
+
+script_name=$(basename $0)
+INC_DIR=$(cd $(dirname "${BASH_SOURCE:-$0}") && pwd)
+#source $INC_DIR/functions
+
+function setup_base {
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y fail2ban git make screen ufw \
+        qemu-kvm libvirt-daemon bridge-utils virtinst libvirt-daemon-system
+}
+
+function setup_firewall {
+    ufw allow ssh
+    ufw enable <<EOF
+y
+EOF
+}
+
+function setup_ssh {
+    echo "*** Authorized use only ***" >>/etc/issue.net
+    # Basic configuration
+    sed -i -e "
+        /Protocol/s|^[#]* *Protocol.*$|Protocol 2|
+        /UseDNS/s|^[#]* *UseDNS.*$|UseDNS no|
+        /Banner/s|^[#]* *Banner.*$|Banner /etc/issue.net|
+    " /etc/ssh/sshd_config
+
+    # Create ciphers config
+    cat >/etc/ssh/sshd_config.d/ciphers.conf <<EOF
+KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+EOF
+    systemctl restart ssh
+}
+
+function setup_time {
+    apt-get install -y chrony
+    cat > /etc/chrony/chrony.conf <<EOF
+confdir /etc/chrony/conf.d
+sourcedir /etc/chrony/sources.d
+keyfile /etc/chrony/chrony.keys
+driftfile /var/lib/chrony/chrony.drift
+ntsdumpdir /var/lib/chrony
+log tracking measurements statistics
+logdir /var/log/chrony
+maxupdateskew 100.0
+rtcsync
+makestep 1 3
+leapsectz right/UTC
+EOF
+    cat > /etc/chrony/sources.d/cloudflare.conf <<EOF
+server time.cloudflare.com iburst nts
+EOF
+    systemctl enable chrony
+}
+
+# Main
+
+setup_base
+setup_time
+setup_firewall
+setup_ssh
+
